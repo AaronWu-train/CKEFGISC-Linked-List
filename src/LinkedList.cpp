@@ -1,36 +1,31 @@
-// 
+//
 //  LinkedList.cpp
 //  CKEFGISC-Linked-List
-//  
-//  Copyright(c) 2022-present, AaronWu-train & CKEFGISC contributors.  
+//
+//  Copyright(c) 2022-present, AaronWu-train, VerstandTsai & CKEFGISC contributors.
 //  This code is licensed under MIT license (see LICENSE.txt for details)
-// 
+//
 
 #include <iostream>
 // 在專案中不要using namespace std，會容易混淆namespace
 
-namespace AaW {  // use a namespace under your name
-    
+namespace Verstand {  // use a namespace under your name
     // 宣告區
-    struct LinkedList {
-        struct node {
+    class LinkedList {
+    public: // 方法作為「介面」，當然要公開存取
+        class node {
+        public:
             int val;    // 我們目前只支持int存在node當中，之後多形時會教怎麼做萬用版的 linked list
             node* next;
-            node* prev; // 雙向 linked list 
-
+            node* prev; // 雙向 linked list
             // constructor & deconstructor
-            node(int _val) : val(_val) { } 
+            node(int _val) : val(_val) { }
             ~node() = default; // 用內建deconstructor就好
         }; // struct node;
-        
+
         // constructor & deconstructor
         LinkedList();       // 建立新的 linked list，並且初始化兩個虛節點
         ~LinkedList();      // 刪除每一個建立的節點
-
-        // member variables
-        int listSize = 0;
-        node* startNode;    // 頭的虛節點
-        node* endNode;      // 尾的虛節點
 
         // methods
         node* begin();      // 回傳第一個"實"節點，若 list 為空則回傳 endNode
@@ -43,10 +38,14 @@ namespace AaW {  // use a namespace under your name
         void erase(node* pos);            //  傳入指標，刪除該位置
         node* find(int val);              //  尋找第一個 val 出現的位置並且回傳指標
         void print();        // 輸出整個LinkedList (之後會教要怎麼讓自定義物件可以cout)
-
+    private: // 內部的零件，用 private 防止存取
+        // member variables
+        int listSize = 0;
+        node* startNode;    // 頭的虛節點
+        node* endNode;      // 尾的虛節點
     }; // struct LinkedList  (在結尾標記這個大括號是誰是個好習慣！)
 
-    // 函數實作區 
+    // 函數實作區
     // (我們會發現把實作和宣告放在一起好像有點亂，因此之後教標頭檔時，
     //  會告訴大家要如何把實作和宣告放進不同檔案當中)
 
@@ -55,7 +54,7 @@ namespace AaW {  // use a namespace under your name
         // 創立startNode和endNode
         this->startNode = new LinkedList::node(0);
         this->endNode = new LinkedList::node(0);
-        
+
         // 連接startNode和endNode
         startNode->next = endNode;
         endNode->prev = startNode;
@@ -107,7 +106,7 @@ namespace AaW {  // use a namespace under your name
     void LinkedList::insert(int val, LinkedList::node* pos) {   //  在 pos 前方插入一項
         // 節點原本長相： beforeNode => pos
         // 插入後新長相： beforeNode => newNode => pos
-        
+
         // 先取得beforeNode
         // 如果pos為startNode時丟出錯誤 (不該再)
         if (pos == this->startNode) {
@@ -159,7 +158,7 @@ namespace AaW {  // use a namespace under your name
         auto cur = this->begin();
 
         // 當cur的值和我們要找得不一樣時，將cur指向下一個位置
-        while (cur->val != val && cur != endNode) { 
+        while (cur->val != val && cur != endNode) {
             cur = cur->next;
         }
 
@@ -181,13 +180,13 @@ namespace AaW {  // use a namespace under your name
         return;
     } // LinkedList::print()
 
-} // namespace AaW (在結尾標記這個大括號是誰是個好習慣！)
+} // namespace Verstand (在結尾標記這個大括號是誰是個好習慣！)
 
 /////////////////////////////////////////////////////////////////////
 // 測試執行區域
 
 int main() {
-    AaW::LinkedList ls;
+    Verstand::LinkedList ls;
     std::cout << ls.size() << std::endl;
 
     ls.insert(10, ls.begin());
